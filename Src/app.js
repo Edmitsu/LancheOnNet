@@ -1,15 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv   = require('dotenv')
+dotenv.config()
 const cors = require('cors');
 const app = express();
 const port = 3000;
 
-const db = require('./bancoDados/bd');
 app.use(cors());
 app.use(express.json());
 
 // Conectar ao banco de dados MongoDB
-mongoose.connect(db.mongoURI, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI);
 
 // Carregar as rotas
 const ingredientesRoutes = require('./src/routes/ingredientesRoutes');
