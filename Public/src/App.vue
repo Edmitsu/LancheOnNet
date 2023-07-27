@@ -29,8 +29,11 @@ export default {
 </script>
 
 <style>
+  /* Importe a fonte Montserrat do Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
   * {
-    font-family: Helvetica;
+    font-family: 'Montserrat', sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;

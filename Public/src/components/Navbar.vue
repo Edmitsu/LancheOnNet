@@ -23,9 +23,8 @@ export default {
 
 <style scoped>
   .nav {
-    font-family: Flame-Regular;
     background-color: #f5ebdc;
-    border-bottom: 4px solid #111;
+    border-bottom: 1px solid #000;
     padding: 15px 50px;
     display: flex;
     justify-content: flex-end;

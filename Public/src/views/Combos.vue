@@ -1,12 +1,10 @@
 <template>
-  <div class="backgroundPrincipal">
-    <div class="container">
-      <div v-for="combo in combos" :key="combo._id" class="coluna-50_esquerda">
-        <div class="backgroundCatalogoParaImagem" @click="openPopup(combo)">
-          <img :src="getFullImageUrl(combo.src)" :alt="combo.name" class="imgCatalogo">
-          <h3>{{ combo.name }}</h3>
-          <p>{{ combo.descricao }}</p>
-        </div>
+  <div class="combo-container">
+    <div v-for="combo in combos" :key="combo._id" class="combo-item">
+      <div class="combo-card" @click="openPopup(combo)">
+        <img :src="getFullImageUrl(combo.src)" :alt="combo.name" class="combo-image">
+        <h3 class="combo-name">{{ combo.name }}</h3>
+        <p class="combo-description">{{ combo.description }}</p>
       </div>
     </div>
 
@@ -14,11 +12,12 @@
       <div class="popup-content">
         <button class="close-button" @click="closePopup">X</button>
         <div class="content">
-          <img :src="getFullImageUrl(selectedCombo.src)" :alt="selectedCombo.name" width="200">
-          <div class="xml">
+          <div class="image-container">
+            <img :src="getFullImageUrl(selectedCombo.src)" :alt="selectedCombo.name" class="popup-image">
+          </div>
+          <div class="details-container">
             <h2>{{ selectedCombo.name }}</h2>
-            <p>{{ selectedCombo.descricao }}</p>
-            <!-- <input type="number" v-model="quantidade" min="1" placeholder="Quantidade" class="quantidade-input"> -->
+            <p>{{ selectedCombo.description }}</p>
           </div>
         </div>
         <div class="cta">
@@ -32,8 +31,7 @@
         <button class="close-button" @click="closePedidoPopup">X</button>
         <div class="pedido-content">
           <h2>Número do Pedido</h2>
-          <p>{{ numeroPedido }}</p>
-          <!-- <p>Quantidade: {{ quantidade }}</p> -->
+          <p v-if="numeroPedido">{{ numeroPedido }}</p>
         </div>
       </div>
     </div>
@@ -72,10 +70,7 @@ export default {
       return `http://localhost:3000/${src}`;
     },
     openPopup(combo) {
-      this.selectedCombo = {
-        ...combo,
-        descricao: combo.description
-      };
+      this.selectedCombo = combo;
       this.showPopup = true;
     },
     closePopup() {
@@ -99,13 +94,10 @@ export default {
         .post('http://localhost:3000/pedidos/', pedido)
         .then(response => {
           console.log('Pedido adicionado:', response.data);
-          this.selectedCombo = null;
-          this.showPopup = false;
           this.numeroPedido = response.data.pedido.numeroPedido;
 
-        
+          this.showPopup = false;
           this.showPedidoPopup = true;
-
           setTimeout(() => {
             this.closePedidoPopup();
           }, 8000);
@@ -122,57 +114,29 @@ export default {
 };
 </script>
 
-
-
 <style>
-.pedido-popup {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.pedido-popup {
-  text-align: center;
-  margin-top: 10px
-}
-body{
- margin: 0;
- padding: 0;
- box-sizing:border-box;
-}
-.backgroundPrincipal {
+/* Estilos para o container de combos */
+.combo-container {
   margin: 0 auto;
-  width: 100vw;
-  padding: 20px; 
-  background-color: #fcbf4c;
-}
-
-
-.container {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-gap: 20px;
-  margin: auto;
-}
-
-.coluna-50_esquerda {
   width: 100%;
-  height: 8%;
-  max-width: 100%;
+  max-width: 1200px; /* Ajuste a largura máxima conforme necessário */
+  padding: 20px; 
+  background-color: #f1f1f1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Aumentar a largura mínima para 250px */
+  grid-gap: 20px;
+}
+
+/* Estilos para cada item de combo */
+.combo-item {
+  width: 100%;
   display: block;
-  border-radius: 14px;
 }
 
-.imgCatalogo {
-    width: 100%;
-    height: 290px;
-    border-radius: 10px;
-    max-width: 100%;
-}
-
-.backgroundCatalogoParaImagem {
-  background-color: #964b00;
-  margin: 2%;
-  padding: 5%;
+/* Estilos para o card de combo */
+.combo-card {
+  background-color: #e2e2e2;
+  padding: 20px;
   border-radius: 7px;
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
@@ -183,11 +147,29 @@ body{
   text-align: center;
 }
 
-.backgroundCatalogoParaImagem h3 {
+/* Estilos para a imagem do combo */
+.combo-image {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+/* Estilos para o nome do combo */
+.combo-name {
   margin-top: 10px;
   font-size: 17px;
-  color: #fff;
+  color: #333;
 }
+
+/* Estilos para a descrição do combo */
+.combo-description {
+  margin-bottom: 0;
+  color: #666;
+}
+
+/* Estilos para o popup */
 .popup {
   position: fixed;
   top: 0;
@@ -195,116 +177,95 @@ body{
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.popup-content h2 {
-  margin-top: 0;
-}
-
-.popup-content img {
-  width: 50%;
-  height: 290px;
+.popup-content {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
   border-radius: 10px;
-  max-width: 100%;
+  width: 80%; /* Ajuste a largura do pop-up conforme necessário */
+  max-width: 400px; /* Defina um tamanho máximo */
 }
 
-.popup-content button {
-  margin: 10px;
+/* Estilos para o botão de fechar */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   padding: 5px 10px;
-  background-color: #fcbf4c;
+  background-color: #ff5c5c;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-
-.xml h2{
-  margin-bottom:  25px;
-  text-align: center;
-  font-size: 30px;
+/* Estilos para a imagem do combo no popup */
+.popup-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 
-.xml p{
-  padding-top: 20px;
-    max-width: 500px;
-    margin-left: 5px;
-    font-size: 20px;
-    font-weight: 545;
-    text-align: center;
+/* Estilos para o contêiner da imagem no popup */
+.image-container {
+  text-align: center; /* Centraliza a imagem horizontalmente */
 }
 
+/* Estilos para o contêiner dos detalhes no popup */
+.details-container {
+  margin-top: 10px;
+}
 
-  .cta {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    background-color: #ff5c5c;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .popup-content {
-    position: relative;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  .popup-content .content {
-    text-align: center;
-    display: flex;
-    
-    align-items: center;
-  }
-   
-  .pedido-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  .pedido-popup .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    background-color: #ff5c5c;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .pedido-content {
-    margin-top: 20px;
-  }
-  
-  .pedido-content h2 {
-    margin-top: 0;
-  }
-  
-  .pedido-content p {
-    margin-bottom: 0;
-    font-size: 24px;
-    font-weight: bold;
-  }
+/* Estilos para o título no popup */
+.popup-content h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Estilos para a descrição no popup */
+.popup-content p {
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Estilos para a seção CTA no popup */
+.cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Estilos para o popup de pedido */
+.pedido-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pedido-popup-content {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 60%; /* Ajuste a largura do popup de pedido conforme necessário */
+  max-width: 400px; /* Defina um tamanho máximo */
+}
+
+.pedido-content p{
+  font-size: 25px;
+  font-weight: 700;
+  color: #ff5c5c;
+}
 </style>
-
-
-
-
