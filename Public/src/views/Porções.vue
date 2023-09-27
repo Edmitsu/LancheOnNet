@@ -18,7 +18,8 @@
           <div class="xml">
             <h2>{{ selectedPorcao.name }}</h2>
             <p>{{ selectedPorcao.description }}</p>
-            <!-- <input type="number" v-model="quantidade" min="1" placeholder="Quantidade" class="quantidade-input"> -->
+            <input type="number" v-model="quantidade" min="1" placeholder="Quantidade" class="quantidade-input">
+            <p><strong>Total: R$ {{ getTotalPrice().toFixed(2) }}</strong></p>
           </div>
         </div>
         <div class="cta">
@@ -33,7 +34,8 @@
         <div class="pedido-content">
           <h2>Número do Pedido</h2>
           <p>{{ numeroPedido }}</p>
-          <!-- <p>Quantidade: {{ quantidade }}</p> -->
+          <p>Quantidade: {{ quantidade }}</p>
+          <p>Total: R$ {{ getTotalPrice().toFixed(2) }}</p>
         </div>
       </div>
     </div>
@@ -51,6 +53,7 @@ export default {
       selectedPorcao: null,
       showPedidoPopup: false,
       numeroPedido: null,
+      quantidade: 1
     };
   },
   mounted() {
@@ -80,32 +83,59 @@ export default {
     closePopup() {
       this.showPopup = false;
       this.selectedPorcao = null;
+      this.quantidade = 1;
+    },
+    getTotalPrice() {
+      if (this.selectedPorcao) {
+        return this.selectedPorcao.price * this.quantidade;
+      }
+      return 0;
     },
     adicionarPedido() {
       if (!this.selectedPorcao) {
         return;
       }
 
-      const { name, descricao } = this.selectedPorcao;
+      const { name, descricao, price } = this.selectedPorcao;
 
       const pedido = {
         nome: name,
         descricaoPorcao: descricao,
+        quantidade: this.quantidade,
+        preco: this.getTotalPrice()
       };
 
       axios
         .post('http://localhost:3000/pedidos/', pedido)
-        .then(response => {
-          console.log('Pedido adicionado:', response.data);
-          this.selectedPorcao = null;
-          this.showPopup = false;
-          this.numeroPedido = response.data.pedido.numeroPedido;
+        .then(responsePedido => {
+          console.log('Pedido adicionado:', responsePedido.data);
 
-          this.showPedidoPopup = true;
+          const pedidoId = responsePedido.data.pedido._id;
 
-          setTimeout(() => {
-            this.closePedidoPopup();
-          }, 8000);
+          const carrinhoItem = {
+            pedidoId,
+            quantidade: this.quantidade,
+            preco: this.getTotalPrice()
+          };
+
+          // Faça uma solicitação para adicionar o item ao carrinho
+          axios
+            .post('http://localhost:3000/carrinho/', carrinhoItem)
+            .then(responseCarrinho => {
+              console.log('Item adicionado ao carrinho:', responseCarrinho.data);
+
+              this.selectedPorcao = null;
+              this.showPopup = false;
+              this.numeroPedido = responsePedido.data.pedido.numeroPedido;
+              this.showPedidoPopup = true;
+
+              setTimeout(() => {
+                this.closePedidoPopup();
+              }, 8000);
+            })
+            .catch(error => {
+              console.error('Erro ao adicionar item ao carrinho:', error);
+            });
         })
         .catch(error => {
           console.error('Erro ao adicionar pedido:', error);

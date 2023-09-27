@@ -51,6 +51,7 @@
 <script>
 import Message from './Message'
 import Banner from './Banner.vue'
+import axios from 'axios';
 
 export default {
   name: "BurgerForm",
@@ -73,21 +74,27 @@ export default {
   },
   methods: {
     async getIngredientes() {
-      const req = await fetch('http://localhost:3000/ingredientes');
-      const data = await req.json();
-      const ingredientes = data.ingredientes;
+      try {
+        const response = await axios.get('http://localhost:3000/ingredientes');
+        const ingredientes = response.data.ingredientes;
 
-      this.paes = ingredientes.find(ingrediente => ingrediente._id === '641e080ba652afd8f482e389').paes;
-      this.carnes = ingredientes.find(ingrediente => ingrediente._id === '641e080ba652afd8f482e389').carnes;
-      this.opcionaisdata = ingredientes.find(ingrediente => ingrediente._id === '641e080ba652afd8f482e389').opcionais;
+        this.paes = ingredientes.find(ingrediente => ingrediente._id === '641e080ba652afd8f482e389').paes;
+        this.carnes = ingredientes.find(ingrediente => ingrediente._id === '641e080ba652afd8f482e389').carnes;
+        this.opcionaisdata = ingredientes.find(ingrediente => ingrediente._id === '641e080ba652afd8f482e389').opcionais;
+      } catch (error) {
+        console.error('Erro ao buscar ingredientes:', error);
+      }
     },
     async getAcompanhamentos() {
-      const req = await fetch('http://localhost:3000/acompanhamentos');
-      const data = await req.json();
-      const acompanhamentos = data.acompanhamentos;
+      try {
+        const response = await axios.get('http://localhost:3000/acompanhamentos');
+        const acompanhamentos = response.data.acompanhamentos;
 
-      this.bebidas = acompanhamentos[0].bebidas;
-      this.porcoes = acompanhamentos[0].porcoes;
+        this.bebidas = acompanhamentos[0].bebidas;
+        this.porcoes = acompanhamentos[0].porcoes;
+      } catch (error) {
+        console.error('Erro ao buscar acompanhamentos:', error);
+      }
     },
     async createBurger() {
       const data = {
@@ -99,29 +106,47 @@ export default {
         porcao: this.porcao,
         status: this.status
       };
-      const dataJson = JSON.stringify(data);
+      
+      try {
+        const response = await axios.post('http://localhost:3000/pedidos', data);
+        
+        if (response.status === 200) {
+          this.msg = "Pedido realizado com sucesso!";
+          const pedidoData = response.data; // Use a resposta para salvar no carrinho
+          this.saveToCarrinho(pedidoData);
 
-      const req = await fetch("http://localhost:3000/pedidos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: dataJson,
-      });
-
-      if (req.ok) {
-        this.msg = "Pedido realizado com sucesso!";
-      } else {
+          // Limpar campos
+          this.nome = "";
+          this.carne = "";
+          this.pao = "";
+          this.opcionais = [];
+          this.bebida = "";
+          this.porcao = "";
+        } else {
+          this.msg = "Ocorreu um erro ao fazer o pedido. Por favor, tente novamente.";
+        }
+      } catch (error) {
+        console.error('Erro ao criar pedido:', error);
         this.msg = "Ocorreu um erro ao fazer o pedido. Por favor, tente novamente.";
       }
-
-      // Limpar campos
-      this.nome = "";
-      this.carne = "";
-      this.pao = "";
-      this.opcionais = [];
-      this.bebida = "";
-      this.porcao = "";
     },
+    async saveToCarrinho(data) {
+      try {
+        const response = await axios.post('http://localhost:3000/carrinho', {
+          pedidoId: data._id
+        });
+
+        if (response.status === 200) {
+          console.log('Pedido salvo no carrinho:', response.data);
+        } else {
+          console.error('Erro ao salvar pedido no carrinho.');
+        }
+      } catch (error) {
+        console.error('Erro ao salvar pedido no carrinho:', error);
+      }
+    }
   },
+  
   mounted() {
     this.getIngredientes();
     this.getAcompanhamentos();
@@ -132,7 +157,6 @@ export default {
   },
 };
 </script>
-
 
 
 

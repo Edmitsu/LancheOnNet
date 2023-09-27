@@ -13,6 +13,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "Combos" */ '../views/Retirada_pedidos.vue')
   },
   {
+    path: '/carrinho',
+    name: 'Carrinho',
+    component: () => import(/* webpackChunkName: "Carrinho" */ '../views/Carrinho.vue')
+  },
+  {
     path: '/pedidos',
     name: 'Pedidos',
     // route level code-splitting

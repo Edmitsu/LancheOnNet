@@ -9,6 +9,7 @@
       <router-link class="nav_button" to="/pedidos">Pedidos</router-link>
       <router-link class="nav_button" to="/combos">Combos</router-link>
       <router-link class="nav_button" to="/porções">Porções</router-link>
+      <router-link class="carrinho" to="/carrinho"><img src="../../public/img/carrinho-de-compras.png" alt="" style="width: 36px;"></router-link>
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
 </script>
 
 <style scoped>
+
   .nav {
     background-color: #f5ebdc;
     border-bottom: 1px solid #000;

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Status = require('../models/status');
 
-// Rota para listar todos os status
+
 router.get('/', async (req, res) => {
   try {
     const status = await Status.find();
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota para criar um novo status
+
 router.post('/', async (req, res) => {
   const status = new Status({
     name: req.body.name,
