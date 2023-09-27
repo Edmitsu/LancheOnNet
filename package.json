@@ -5,7 +5,8 @@
   "scripts": {
     "start": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "cd Src && npm start", 
-    "frontend": "cd Public && npm run serve" 
+    "frontend": "cd Public && npm run serve",
+    "install-all": "cd Src && npm install && cd ../Public && npm install" 
   }
   
   
