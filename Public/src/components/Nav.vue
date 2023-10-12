@@ -24,7 +24,7 @@
    left: 0;
    height: 100%;
    width: 100px;
-   background: var(--sec-red);
+   background: var(--main-red);
    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.4);
    z-index: 1;
  }
@@ -36,16 +36,23 @@
  }
 
  .nav-list a {
+   display: block;
+   align-items: center;
    font-size: 2.2rem;
    margin-bottom: 1rem; 
    text-decoration: none; 
    color: var(--main-white); 
+   padding: 2rem;
    transition: background 0.3s, color 0.3s; 
  }
 
  .nav-list a:hover {
-   background: var(--main-blue);
-   color: var(--main-white);
+   background: var(--main-white);
+   color: var(--main-red);
+ }
+ .nav-list a:active {
+   background: var(--main-white);
+   color: var(--main-red);
  }
 
  @media (max-width: 28.75em) {
@@ -69,6 +76,7 @@
  }
  .nav-list a {
    margin: 0 1rem;
+   padding: 1.2rem;
  }
  }
 </style>

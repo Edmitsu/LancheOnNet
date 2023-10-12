@@ -65,6 +65,9 @@
     border-radius: 2px;
     position: relative;
   }
+  .hamburger-item > p{
+    font-size: 2rem;
+  }
   
   .hamburger-image {
     height: 400px;
@@ -74,7 +77,7 @@
   }
   
   .hamburger-name {
-    font-size: 2rem;
+    font-size: 3rem;
     padding: 2rem 0.5rem;
   }
   @media (max-width: 28.75em) {

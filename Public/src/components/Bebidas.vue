@@ -3,7 +3,7 @@
     <div class="bebidas-grid">
       <div class="bebida-item" v-for="bebida in bebidas" :key="bebida.id">
         <img :src="bebida.image" :alt="bebida.tipo" class="bebida-image" />
-        <h3 class="bebida-name">{{ bebida.name }}</h3>
+        <h3 class="bebida-name">{{ bebida.tipo }}</h3>
         <p>{{ bebida.price }}</p>
         <p>{{ bebida.tipo }}</p>
       </div>
@@ -51,11 +51,14 @@
     padding: 2rem;
     border-radius: 5px;
     background-color: #fff;
-    background: var(--main-turquoise);
+    background: var(--main-yellow);
     color: var(--main-white);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     border-radius: 2px;
     position: relative;
+  }
+  .bebida-item > p{
+    font-size: 2rem;
   }
   
   .bebida-image {
@@ -66,7 +69,7 @@
   }
   
   .bebida-name {
-    font-size: 2rem;
+    font-size: 3rem;
     padding: 2rem 0.5rem;
   }
   @media (max-width: 28.75em) {

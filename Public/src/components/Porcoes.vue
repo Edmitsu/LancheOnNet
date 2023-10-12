@@ -57,6 +57,9 @@
     border-radius: 2px;
     position: relative;
   }
+  .porcao-item > p{
+    font-size: 2rem;
+  }
   
   .porcao-image {
     height: 400px;
@@ -66,7 +69,7 @@
   }
   
   .porcao-name {
-    font-size: 2rem;
+    font-size: 3rem;
     padding: 2rem 0.5rem;
   }
   @media (max-width: 28.75em) {
