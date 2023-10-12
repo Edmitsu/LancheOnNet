@@ -1,163 +1,219 @@
 {
-  "ingredientes": {
-    "paes": [
+    "hamburgers": [
       {
         "id": 1,
-        "tipo": "Italiano Branco"
+        "name": "Hambúrguer Clássico",
+        "price": 8.99,
+        "description": "Um delicioso hambúrguer clássico com carne, queijo, alface e tomate.",
+        "image": "./src/assets/burgers/burger1.jpg"
       },
       {
         "id": 2,
-        "tipo": "3 Queijos"
+        "name": "Hambúrguer Vegetariano",
+        "price": 9.99,
+        "description": "Um hambúrguer saudável com base de vegetais, queijo, alface e molho especial.",
+        "image": "./src/assets/burgers/burger2.jpg"
       },
       {
         "id": 3,
-        "tipo": "Parmesão e Orégano"
+        "name": "Hambúrguer de Frango",
+        "price": 7.99,
+        "description": "Um saboroso hambúrguer de frango grelhado com alface e molho de mostarda.",
+        "image": "./src/assets/burgers/burger3.jpg"
       },
       {
         "id": 4,
-        "tipo": "Integral"
-      }
-    ],
-    "carnes": [
-      {
-        "id": 1,
-        "tipo": "Maminha"
-      },
-      {
-        "id": 2,
-        "tipo": "Alcatra"
-      },
-      {
-        "id": 3,
-        "tipo": "Picanha"
-      },
-      {
-        "id": 4,
-        "tipo": "Veggie burger"
-      }
-    ],
-    "opcionais": [
-      {
-        "id": 1,
-        "tipo": "Bacon"
-      },
-      {
-        "id": 2,
-        "tipo": "Cheddar"
-      },
-      {
-        "id": 3,
-        "tipo": "Salame"
-      },
-      {
-        "id": 4,
-        "tipo": "Tomate"
+        "name": "Hambúrguer Duplo",
+        "price": 10.99,
+        "description": "Dois hambúrgueres, queijo, alface, tomate e molho especial.",
+        "image": "./src/assets/burgers/burger4.jpg"
       },
       {
         "id": 5,
-        "tipo": "Cebola roxa"
+        "name": "Hambúrguer de Peixe",
+        "price": 9.49,
+        "description": "Um hambúrguer de peixe empanado com alface e molho tártaro.",
+        "image": "./src/assets/burgers/burger5.jpg"
       },
       {
         "id": 6,
-        "tipo": "Pepino"
+        "name": "Hambúrguer Picante",
+        "price": 8.99,
+        "description": "Um hambúrguer com pimenta, queijo, alface e cebola roxa.",
+        "image": "./src/assets/burgers/burger6.jpg"
+      },
+      {
+        "id": 7,
+        "name": "Hambúrguer de Cordeiro",
+        "price": 11.99,
+        "description": "Hambúrguer de cordeiro grelhado com iogurte e hortelã.",
+        "image": "./src/assets/burgers/burger7.jpg"
+      },
+      {
+        "id": 8,
+        "name": "Hambúrguer de Picanha",
+        "price": 12.99,
+        "description": "Picanha suculenta, queijo, alface, tomate e molho barbecue.",
+        "image": "./src/assets/burgers/burger4.jpg"
+      },
+      {
+        "id": 9,
+        "name": "Hambúrguer de Cogumelos",
+        "price": 9.99,
+        "description": "Hambúrguer vegetariano de cogumelos com queijo suíço.",
+        "image": "./src/assets/burgers/burger2.jpg"
+      },
+      {
+        "id": 10,
+        "name": "Hambúrguer BBQ",
+        "price": 10.49,
+        "description": "Hambúrguer grelhado com bacon, cebola caramelizada e molho barbecue.",
+        "image": "./src/assets/burgers/burger3.jpg"
       }
-    ]
-  },
-  "acompanhamentos": {
+    ],
     "bebidas": [
       {
         "id": 1,
-        "tipo": "Coca Cola"
+        "name": "Refrigerante",
+        "price": 2.49,
+        "description": "Uma lata de refrigerante gelado (Coca-Cola, Pepsi, Sprite, etc.).",
+        "image": "soda.jpg"
       },
       {
         "id": 2,
-        "tipo": "Fanta Laranja"
+        "name": "Suco de Laranja",
+        "price": 3.99,
+        "description": "Suco de laranja natural, fresco e refrescante.",
+        "image": "orange-juice.jpg"
       },
       {
         "id": 3,
-        "tipo": "Suco de Uva"
+        "name": "Cerveja",
+        "price": 4.99,
+        "description": "Uma garrafa de cerveja gelada (Heineken, Budweiser, etc.).",
+        "image": "beer.jpg"
       },
       {
         "id": 4,
-        "tipo": "Chá Gelado"
+        "name": "Água Mineral",
+        "price": 1.99,
+        "description": "Uma garrafa de água mineral natural ou com gás.",
+        "image": "water.jpg"
+      },
+      {
+        "id": 5,
+        "name": "Café",
+        "price": 2.99,
+        "description": "Uma xícara de café quente ou gelado.",
+        "image": "coffee.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Chá",
+        "price": 2.49,
+        "description": "Uma xícara de chá quente ou gelado (camomila, hortelã, etc.).",
+        "image": "tea.jpg"
+      },
+      {
+        "id": 7,
+        "name": "Milkshake",
+        "price": 4.99,
+        "description": "Um delicioso milkshake de baunilha, chocolate ou morango.",
+        "image": "milkshake.jpg"
+      },
+      {
+        "id": 8,
+        "name": "Coquetel de Frutas",
+        "price": 5.99,
+        "description": "Um coquetel de frutas frescas com ou sem álcool.",
+        "image": "fruit-cocktail.jpg"
+      },
+      {
+        "id": 9,
+        "name": "Smoothie",
+        "price": 4.49,
+        "description": "Um smoothie saudável de frutas e iogurte.",
+        "image": "smoothie.jpg"
+      },
+      {
+        "id": 10,
+        "name": "Champagne",
+        "price": 9.99,
+        "description": "Uma garrafa de champagne espumante (Veuve Clicquot, Moët & Chandon, etc.).",
+        "image": "champagne.jpg"
       }
     ],
     "porcoes": [
       {
         "id": 1,
-        "tipo": "Batata Pequena"
+        "name": "Batata Frita",
+        "price": 4.99,
+        "description": "Porção de batata frita crocante com ketchup e maionese.",
+        "image": "fries.jpg"
       },
       {
         "id": 2,
-        "tipo": "Batata Média"
+        "name": "Anéis de Cebola",
+        "price": 5.99,
+        "description": "Porção de anéis de cebola empanados com molho especial.",
+        "image": "onion-rings.jpg"
       },
       {
         "id": 3,
-        "tipo": "Batata Grande"
+        "name": "Nuggets de Frango",
+        "price": 6.49,
+        "description": "Porção de nuggets de frango com molho de mostarda e mel.",
+        "image": "chicken-nuggets.jpg"
       },
       {
         "id": 4,
-        "tipo": "Onion Rings"
+        "name": "Isca de Peixe",
+        "price": 7.49,
+        "description": "Porção de iscas de peixe com molho tártaro.",
+        "image": "fish-strips.jpg"
+      },
+      {
+        "id": 5,
+        "name": "Bruschetta",
+        "price": 8.99,
+        "description": "Porção de bruschettas com tomate, manjericão e azeite de oliva.",
+        "image": "bruschetta.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Camarões Empanados",
+        "price": 9.99,
+        "description": "Porção de camarões empanados com molho de alho.",
+        "image": "shrimp.jpg"
+      },
+      {
+        "id": 7,
+        "name": "Mini Tacos",
+        "price": 8.49,
+        "description": "Porção de mini tacos de carne ou frango com guacamole.",
+        "image": "mini-tacos.jpg"
+      },
+      {
+        "id": 8,
+        "name": "Coxinhas",
+        "price": 7.99,
+        "description": "Porção de coxinhas de frango com catupiry.",
+        "image": "coxinha.jpg"
+      },
+      {
+        "id": 9,
+        "name": "Espetinhos de Carne",
+        "price": 9.49,
+        "description": "Porção de espetinhos de carne grelhada com molho chimichurri.",
+        "image": "beef-skewers.jpg"
+      },
+      {
+        "id": 10,
+        "name": "Pães de Alho",
+        "price": 5.99,
+        "description": "Porção de pães de alho com ervas e queijo derretido.",
+        "image": "garlic-bread.jpg"
       }
     ]
-  },
-  "status": [
-    {
-      "id": 1,
-      "tipo": "Solicitado"
-    },
-    {
-      "id": 2,
-      "tipo": "Em produção"
-    },
-    {
-      "id": 3,
-      "tipo": "Finalizado"
-    }
-  ],
-  "pedidos": [
-    {
-      "nome": "Jaime",
-      "carne": "Picanha",
-      "pao": "3 Queijos",
-      "opcionais": [
-        "Bacon",
-        "Cheddar",
-        "Tomate",
-        "Cebola roxa"
-      ],
-      "bebida": "Coca Cola",
-      "porcao": "Batata Grande",
-      "status": "Solicitado",
-      "id": 1
-    },
-    {
-      "nome": "Glauber",
-      "carne": "Alcatra",
-      "pao": "Italiano Branco",
-      "opcionais": [
-        "Bacon",
-        "Tomate",
-        "Cebola roxa"
-      ],
-      "bebida": "Suco de Uva",
-      "porcao": "Batata Grande",
-      "status": "Solicitado",
-      "id": 2
-    },
-    {
-      "nome": "Jubirildo",
-      "carne": "Picanha",
-      "pao": "Italiano Branco",
-      "opcionais": [
-        "Bacon",
-        "Salame",
-        "Cheddar"
-      ],
-      "bebida": "Suco de Uva",
-      "porcao": "Batata Grande",
-      "status": "Solicitado",
-      "id": 3
-    }
-  ]
-}
+  }
+  

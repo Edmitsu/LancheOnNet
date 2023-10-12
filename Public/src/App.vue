@@ -1,53 +1,33 @@
-<template>
-  <div>
-    <Navbar :logo="logo_src" :alt="app_name" />
-    <div>
-      <router-view></router-view>
-    </div>
-    <Footer/>
-  </div>
-</template>
-<script>
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-
-
-
-
-export default {
-  data: function() {
-    return {
-      logo_src: "/img/logo.png",
-      app_name: "Lanche.on.Net"
-    }
-  },
-  components: {
-    Navbar,
-    Footer
-  }
-}
+<script setup>
+import Bebidas from './components/Bebidas.vue';
+import Burgers from './components/Burgers.vue'
+import Porcoes from './components/Porcoes.vue';
+import Nav from './components/Nav.vue'
 </script>
 
+<template>
+    <Nav />
+    <section class="content">
+      <Burgers />
+      <Bebidas />
+      <Porcoes />
+    </section>
+</template>
+
 <style>
-  /* Importe a fonte Montserrat do Google Fonts */
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-
-  * {
-    font-family: 'Montserrat', sans-serif;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  body {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--main-white);
+    /* background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%); */
+  }
+  .content{
+    margin-left: 100px;
   }
 
-  .main-container {
-    margin: 50px;
-    min-height: 250px;
-  }
-
-  h1 {
-    text-align: center;
-    font-size: 42px;
-    margin-bottom: 30px;
-    color: #222;
+  @media (max-width: 28.75em) {
+    .content{
+      margin-left: 0;
+    }
   }
 </style>

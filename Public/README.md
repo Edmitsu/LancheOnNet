@@ -1,39 +1,7 @@
-# Lanche.on.Net
+# Vue 3 + Vite
 
-## Project setup
-```
-npm install
-```
+This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-### Compiles backend 
-```
-npm run backend
-```
+## Recommended IDE Setup
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### Project colors
-Fiery Red
-HEX #D01C1F / RGB (208, 28, 31) 
-
-blue 
-HEX #0032a0 / RGB (0,50, 160)
-
-yellow
-HEX #f7a901 / RGB (247, 169, 1) 
-
-white
-HEX #f5ebdc / RGB (245, 235, 220)
-
-brown 
-HEX #502314 / RGB (80, 35, 20)
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
