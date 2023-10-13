@@ -10,7 +10,7 @@
             </div>
         </div>
         <div>
-          
+
         </div>
     </section>
 </template>
@@ -66,28 +66,24 @@ export default {
    }
   
    @media (max-width: 28.75em) {
-    .nav {
+    .carrinho {
       display: flex;
       justify-content: center;
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
-      height: 50px;
+      height: 100px;
       width: 100%;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.4);
       z-index: 1;
    }
   
-   .nav-list {
+   .carrinho-list {
      display: flex; 
      padding: 1rem;
      flex-direction: row;
      margin: 0 1rem;
      align-items: center;
-   }
-   .nav-list a {
-     margin: 0 1rem;
-     padding: 1.2rem;
    }
    }
   </style>

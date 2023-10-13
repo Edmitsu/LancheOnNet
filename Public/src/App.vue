@@ -31,6 +31,7 @@ import Carrinho from './components/Carrinho.vue';
   @media (max-width: 28.75em) {
     .content{
       margin-left: 0;
+      margin-bottom: 100px;
     }
   }
 </style>
