@@ -33,11 +33,12 @@
    display: flex;
    flex-direction: column; 
    padding: 2rem;
+   height: 100%;
+   justify-content: space-between;
  }
 
  .nav-list a {
    display: block;
-   align-items: center;
    font-size: 2.2rem;
    margin-bottom: 1rem; 
    text-decoration: none; 
@@ -47,12 +48,10 @@
  }
 
  .nav-list a:hover {
-   background: var(--main-white);
-   color: var(--main-red);
+   background: var(--main-yellow);
  }
  .nav-list a:active {
    background: var(--main-white);
-   color: var(--main-red);
  }
 
  @media (max-width: 28.75em) {
@@ -73,6 +72,7 @@
    padding: 1rem;
    flex-direction: row;
    margin: 0 1rem;
+   align-items: center;
  }
  .nav-list a {
    margin: 0 1rem;

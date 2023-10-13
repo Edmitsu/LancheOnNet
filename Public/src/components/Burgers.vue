@@ -2,7 +2,7 @@
   <section id="burgers">
     <div class="hamburgers-grid">
       <div class="hamburger-item" v-for="hamburger in hamburgers" :key="hamburger.id">
-        <img :src="getFullImageUrl(hamburger.src)" :alt="hamburger.name" class="hamburger-image" />
+        <img :src="getFullImageUrl(hamburger.src)" :alt="hamburger.name" class="hamburger-image" loading="lazy" draggable="false" />
         <h3 class="hamburger-name">{{ hamburger.name }}</h3>
         <p>{{ hamburger.price }}</p>
         <p>{{ hamburger.description }}</p>
@@ -68,9 +68,14 @@
   .hamburger-item > p{
     font-size: 2rem;
   }
+
+  .hamburger-item:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+  }
   
   .hamburger-image {
-    height: 400px;
+    height: 300px;
     width: 100%;
     object-fit: cover;
     max-height: 450px;

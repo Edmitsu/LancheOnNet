@@ -3,6 +3,7 @@ import Bebidas from './components/Bebidas.vue';
 import Burgers from './components/Burgers.vue'
 import Porcoes from './components/Porcoes.vue';
 import Nav from './components/Nav.vue'
+import Carrinho from './components/Carrinho.vue';
 </script>
 
 <template>
@@ -12,6 +13,7 @@ import Nav from './components/Nav.vue'
       <Bebidas />
       <Porcoes />
     </section>
+    <Carrinho />
 </template>
 
 <style>
@@ -23,6 +25,7 @@ import Nav from './components/Nav.vue'
   }
   .content{
     margin-left: 100px;
+    height: calc(100% - 150px);
   }
 
   @media (max-width: 28.75em) {

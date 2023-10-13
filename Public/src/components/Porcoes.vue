@@ -2,7 +2,7 @@
   <section id="porcoes">
     <div class="porcoes-grid">
       <div class="porcao-item" v-for="porcao in porcoes" :key="porcao.id">
-        <img :src="porcao.image" :alt="porcao.tipo" class="porcao-image" />
+        <img :src="porcao.image" :alt="porcao.tipo" class="porcao-image" loading="lazy" draggable="false" />
         <h3 class="porcao-name">{{ porcao.tipo }}</h3>
         <p>{{ porcao.price }}</p>
         <p>{{ porcao.description }}</p>
@@ -60,9 +60,14 @@
   .porcao-item > p{
     font-size: 2rem;
   }
+
+  .porcao-item:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+  }
   
   .porcao-image {
-    height: 400px;
+    height: 300px;
     width: 100%;
     object-fit: cover;
     max-height: 450px;

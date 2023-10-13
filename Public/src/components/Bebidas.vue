@@ -2,7 +2,7 @@
   <section id="bebidas">
     <div class="bebidas-grid">
       <div class="bebida-item" v-for="bebida in bebidas" :key="bebida.id">
-        <img :src="bebida.image" :alt="bebida.tipo" class="bebida-image" />
+        <img :src="bebida.image" :alt="bebida.tipo" class="bebida-image" loading="lazy" draggable="false" />
         <h3 class="bebida-name">{{ bebida.tipo }}</h3>
         <p>{{ bebida.price }}</p>
         <p>{{ bebida.tipo }}</p>
@@ -60,9 +60,14 @@
   .bebida-item > p{
     font-size: 2rem;
   }
+
+  .bebida-item:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+  }
   
   .bebida-image {
-    height: 400px;
+    height: 300px;
     width: 100%;
     object-fit: cover;
     max-height: 450px;
