@@ -5,7 +5,7 @@
         <img :src="getFullImageUrl(porcao.src)" :alt="porcao.tipo" class="porcao-image" loading="lazy" draggable="false" />
         <h3 class="porcao-name">{{ porcao.name }}</h3>
         <p>{{ porcao.description }}</p>
-        <p>{{ porcao.price }}</p>
+        <p>R$ {{ porcao.price }}</p>
       </div>
     </div>
   </section>
@@ -64,6 +64,11 @@
   }
   .porcao-item > p{
     font-size: 2rem;
+  }
+
+  .porcao-item > p:last-child{
+    font-size: 3rem;
+    font-weight: 600;
   }
 
   .porcao-item:hover{

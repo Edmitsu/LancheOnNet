@@ -5,7 +5,7 @@
         <img :src="getFullImageUrl(bebida.img)" :alt="bebida.bebida" class="bebida-image" loading="lazy" draggable="false" />
         <h3 class="bebida-name">{{ bebida.bebida }}</h3>
         <p>{{ bebida.tamanho }}</p>
-        <p>{{ bebida.price }}</p>
+        <p>R$ {{ bebida.price }}</p>
       </div>
     </div>
   </section>
@@ -64,6 +64,11 @@
   }
   .bebida-item > p{
     font-size: 2rem;
+  }
+
+  .bebida-item > p:last-child{
+    font-size: 3rem;
+    font-weight: 600;
   }
 
   .bebida-item:hover{

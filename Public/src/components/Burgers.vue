@@ -5,7 +5,7 @@
         <img :src="getFullImageUrl(hamburger.src)" :alt="hamburger.name" class="hamburger-image" loading="lazy" draggable="false" />
         <h3 class="hamburger-name">{{ hamburger.name }}</h3>
         <p>{{ hamburger.description }}</p>
-        <p>{{ hamburger.price }}</p>
+        <p>R$ {{ hamburger.price }}</p>
       </div>
     </div>
   </section>
@@ -67,6 +67,11 @@
   }
   .hamburger-item > p{
     font-size: 2rem;
+  }
+
+  .hamburger-item > p:last-child{
+    font-size: 3rem;
+    font-weight: 600;
   }
 
   .hamburger-item:hover{
