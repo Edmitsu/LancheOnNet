@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="carrinho">
     <h2>Seu Carrinho de Pedidos</h2>
     <div v-if="carrinhoItens.length === 0">Seu carrinho está vazio.</div>
@@ -8,13 +8,13 @@
         <p>Número do Pedido: {{ item.numeroPedido }}</p>
         <p>Quantidade: {{ item.quantidade }}</p>
         <p>Preço: R$ {{ item.preco ? item.preco.toFixed(2) : 'N/A' }}</p>
-        <p>Total: R$ {{ (item.quantidade * (item.preco || 0)).toFixed(2) }}</p>
         <div class="carrinho-item-buttons">
           <button @click="aumentarQuantidade(item)">+</button>
           <button @click="diminuirQuantidade(item)">-</button>
           <button @click="excluirPedido(item)">Excluir</button>
         </div>
       </div>
+      <p>Total do Carrinho: R$ {{ calcularTotalCarrinho().toFixed(2) }}</p>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      carrinhoItens: []
+      carrinhoItens: [],
     };
   },
   mounted() {
@@ -34,7 +34,7 @@ export default {
   methods: {
     async fetchCarrinhoData() {
       try {
-        const response = await axios.get('http://localhost:3000/carrinho'); 
+        const response = await axios.get('http://localhost:3000/carrinho');
         this.carrinhoItens = response.data.carrinhoItens;
       } catch (error) {
         console.error('Erro ao buscar dados do carrinho:', error);
@@ -42,13 +42,11 @@ export default {
     },
 
     aumentarQuantidade(item) {
-      
       item.quantidade++;
       this.atualizarQuantidadeNoServidor(item);
     },
 
     diminuirQuantidade(item) {
- 
       if (item.quantidade > 1) {
         item.quantidade--;
         this.atualizarQuantidadeNoServidor(item);
@@ -56,7 +54,6 @@ export default {
     },
 
     atualizarQuantidadeNoServidor(item) {
-      
       axios
         .put(`http://localhost:3000/carrinho/${item._id}`, { quantidade: item.quantidade })
         .then(response => {
@@ -68,13 +65,10 @@ export default {
     },
 
     excluirPedido(item) {
-  
       axios
         .delete(`http://localhost:3000/carrinho/${item._id}`)
         .then(response => {
           console.log('Pedido excluído com sucesso:', response.data);
-
-      
           const index = this.carrinhoItens.indexOf(item);
           if (index !== -1) {
             this.carrinhoItens.splice(index, 1);
@@ -83,8 +77,14 @@ export default {
         .catch(error => {
           console.error('Erro ao excluir pedido:', error);
         });
-    }
-  }
+    },
+
+    calcularTotalCarrinho() {
+      return this.carrinhoItens.reduce((total, item) => {
+        return total + (item.quantidade * (item.preco || 0));
+      }, 0);
+    },
+  },
 };
 </script>
 

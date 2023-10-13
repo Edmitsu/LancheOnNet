@@ -3,14 +3,15 @@ const Porcao = require("../models/porcao");
 
 exports.create = async (req, res) => {
   try {
-    const { name, description, id } = req.body;
+    const { name, description, id, price } = req.body;
     const file = req.file;
 
     const porcao = new Porcao({
       id,
       name,
       description,
-      src: file.path,
+      img: file.path,
+      price
     });
 
     await porcao.save();
@@ -26,7 +27,7 @@ exports.remove = async (req, res) => {
     if (!porcao) {
       return res.status(404).json({ message: "porcao não encontrado." });
     }
-    fs.unlinkSync(`uploads/${porcao.src}`);
+    fs.unlinkSync(`uploads/${porcao.img}`);
     await porcao.remove();
     res.json({ message: "porcao removido com sucesso." });
   } catch (err) {
