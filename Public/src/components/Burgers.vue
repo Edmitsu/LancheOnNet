@@ -80,6 +80,10 @@
     object-fit: cover;
     max-height: 450px;
   }
+  .hamburger-image:hover {
+    height: 100%;
+    transition: .5s ease-in-out;
+  }
   
   .hamburger-name {
     font-size: 3rem;

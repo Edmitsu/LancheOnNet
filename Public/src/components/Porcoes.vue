@@ -77,6 +77,11 @@
     object-fit: cover;
     max-height: 450px;
   }
+
+  .porcao-image:hover {
+    height: 100%;
+    transition: .5s ease-in-out;
+  }
   
   .porcao-name {
     font-size: 3rem;
