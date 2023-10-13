@@ -4,8 +4,8 @@
       <div class="hamburger-item" v-for="hamburger in hamburgers" :key="hamburger.id">
         <img :src="getFullImageUrl(hamburger.src)" :alt="hamburger.name" class="hamburger-image" loading="lazy" draggable="false" />
         <h3 class="hamburger-name">{{ hamburger.name }}</h3>
-        <p>{{ hamburger.price }}</p>
         <p>{{ hamburger.description }}</p>
+        <p>{{ hamburger.price }}</p>
       </div>
     </div>
   </section>

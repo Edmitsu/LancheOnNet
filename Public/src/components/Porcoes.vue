@@ -2,10 +2,10 @@
   <section id="porcoes">
     <div class="porcoes-grid">
       <div class="porcao-item" v-for="porcao in porcoes" :key="porcao.id">
-        <img :src="porcao.image" :alt="porcao.tipo" class="porcao-image" loading="lazy" draggable="false" />
-        <h3 class="porcao-name">{{ porcao.tipo }}</h3>
-        <p>{{ porcao.price }}</p>
+        <img :src="getFullImageUrl(porcao.src)" :alt="porcao.tipo" class="porcao-image" loading="lazy" draggable="false" />
+        <h3 class="porcao-name">{{ porcao.name }}</h3>
         <p>{{ porcao.description }}</p>
+        <p>{{ porcao.price }}</p>
       </div>
     </div>
   </section>
@@ -21,14 +21,19 @@
       };
     },
     mounted() {
-      axios.get("http://localhost:3000/acompanhamentos")
+      axios.get("http://localhost:3000/porcao")
         .then((response) => {
-          this.porcoes = response.data.acompanhamentos[0].porcoes;
+          this.porcoes = response.data;
         })
         .catch((error) => {
           console.error("Erro ao buscar os dados de bebidas:", error);
         });
     },
+    methods: {
+      getFullImageUrl(src) {
+      return `http://localhost:3000/${src}`;
+      },
+    }
   };
   </script>
   

@@ -25,7 +25,7 @@ import Carrinho from './components/Carrinho.vue';
   }
   .content{
     margin-left: 100px;
-    height: calc(100% - 150px);
+    margin-bottom: 150px;
   }
 
   @media (max-width: 28.75em) {

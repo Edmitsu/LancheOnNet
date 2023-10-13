@@ -2,10 +2,10 @@
   <section id="bebidas">
     <div class="bebidas-grid">
       <div class="bebida-item" v-for="bebida in bebidas" :key="bebida.id">
-        <img :src="bebida.image" :alt="bebida.tipo" class="bebida-image" loading="lazy" draggable="false" />
-        <h3 class="bebida-name">{{ bebida.tipo }}</h3>
+        <img :src="getFullImageUrl(bebida.img)" :alt="bebida.bebida" class="bebida-image" loading="lazy" draggable="false" />
+        <h3 class="bebida-name">{{ bebida.bebida }}</h3>
+        <p>{{ bebida.tamanho }}</p>
         <p>{{ bebida.price }}</p>
-        <p>{{ bebida.tipo }}</p>
       </div>
     </div>
   </section>
@@ -21,14 +21,19 @@
       };
     },
     mounted() {
-      axios.get("http://localhost:3000/acompanhamentos")
+      axios.get("http://localhost:3000/bebidas")
         .then((response) => {
-          this.bebidas = response.data.acompanhamentos[0].bebidas;
+          this.bebidas = response.data;
         })
         .catch((error) => {
           console.error("Erro ao buscar os dados de bebidas:", error);
         });
     },
+    methods: {
+      getFullImageUrl(src) {
+      return `http://localhost:3000/${src}`;
+      },
+    }
   };
   </script>
   
