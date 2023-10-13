@@ -10,7 +10,7 @@ exports.create = async (req, res) => {
       id,
       name,
       description,
-      src: file.path,
+      img: file.path,
     });
 
     await combo.save();
@@ -26,7 +26,7 @@ exports.remove = async (req, res) => {
     if (!combo) {
       return res.status(404).json({ message: "Combo não encontrado." });
     }
-    fs.unlinkSync(`uploads/${combo.src}`);
+    fs.unlinkSync(`uploads/${combo.img}`);
     await combo.remove();
     res.json({ message: "Combo removido com sucesso." });
   } catch (err) {
