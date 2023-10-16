@@ -1,34 +1,34 @@
 const Carrinho = require('../models/carrinho');
-const Pedido = require('../models/pedidos');
+const Hamburger = require('../models/combos.js');
+const Porcao = require('../models/porcao.js');
+const Bebida = require('../models/bebidas.js');
+
 
 module.exports = {
   async addToCarrinho(req, res) {
-    const { pedidoId,  preco } = req.body;
+    const { hamburger, porcao, bebida} = req.body;
 
     try {
      
-      const pedido = await Pedido.findById(pedidoId);
-      if (!pedido) {
-        return res.status(404).json({ error: 'Pedido não encontrado.' });
+      const hamburger = await Hamburger.findById(id);
+      if (!hamburger) {
+        return res.status(404).json({ error: 'Hamburger não encontrado.' });
+      }
+      const porcao = await Porcao.findById(id);
+      if (!hamburger) {
+        return res.status(404).json({ error: 'Porção não encontrada.' });
+      }
+      const bebida = await Bebida.findById(id);
+      if (!hamburger) {
+        return res.status(404).json({ error: 'Bebida não encontrado.' });
       }
 
      
       const carrinhoItem = await Carrinho.create({
-        pedidoId,
-        nome: pedido.nome,
-        bebida: pedido.bebida,
-        porcao: pedido.porcao,
-        comboId: pedido.combo.id,
-        descricaoCombo: pedido.descricaoCombo,
-        descricaoPorcao: pedido.descricaoPorcao,
-        numeroPedido: pedido.numeroPedido,
-        quantidade: pedido.combo.qtdCombo || 1, 
-        preco: preco,
-        combo: { 
-          nomeCombo: pedido.combo.nome,
-          descricaoCombo: pedido.combo.descricao,
-          
-        },
+        hamburger,
+        bebida,
+        porcao,
+        preco
       });
 
       return res.json({ carrinhoItem, message: 'Pedido adicionado ao carrinho.' });

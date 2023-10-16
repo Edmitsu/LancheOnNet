@@ -26,7 +26,7 @@
           this.porcoes = response.data;
         })
         .catch((error) => {
-          console.error("Erro ao buscar os dados de bebidas:", error);
+          console.error("Erro ao buscar os dados de porções:", error);
         });
     },
     methods: {

@@ -6,6 +6,7 @@
         <h3 class="hamburger-name">{{ hamburger.name }}</h3>
         <p>{{ hamburger.description }}</p>
         <p>R$ {{ hamburger.price }}</p>
+        <button @click="addToCart(hamburger)">Adicionar ao Carrinho</button>
       </div>
     </div>
   </section>
@@ -18,10 +19,10 @@
     data() {
       return {
         hamburgers: [],
+        cart: [],
       };
     },
     mounted() {
-      // Realize a requisição para obter os dados de hamburguers
       axios.get("http://localhost:3000/combos")
         .then((response) => {
           this.hamburgers = response.data;
@@ -34,6 +35,17 @@
     methods: {
       getFullImageUrl(src) {
       return `http://localhost:3000/${src}`;
+      },
+     
+      addToCart(hamburger) {
+        this.cart.push(hamburger);
+        axios.post("http://localhost:3000/carrinho", hamburger)
+          .then((response) => {
+            console.log("Hambúrguer adicionado ao carrinho no servidor:", response.data);
+          })
+          .catch((error) => {
+            console.error("Erro ao adicionar hambúrguer ao carrinho no servidor:", error, response);
+          });
       },
     }
   };
