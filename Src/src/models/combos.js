@@ -6,6 +6,7 @@ const ComboSchema = new Schema({
   img: { type: String, required: true },
   description: { type: String },
   id: { type: String, required: true, unique: true },
+  price: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Combo", ComboSchema);

@@ -26,7 +26,6 @@
       axios.get("http://localhost:3000/combos")
         .then((response) => {
           this.hamburgers = response.data;
-          console.log(this.hamburgers[0].src)
         })
         .catch((error) => {
           console.error("Erro ao buscar os dados de hamburguers:", error);

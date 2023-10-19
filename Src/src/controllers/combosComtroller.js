@@ -3,7 +3,7 @@ const Combo = require("../models/combos");
 
 exports.create = async (req, res) => {
   try {
-    const { name, description, id } = req.body;
+    const { name, description, id,  price } = req.body;
     const file = req.file;
 
     const combo = new Combo({
@@ -11,6 +11,7 @@ exports.create = async (req, res) => {
       name,
       description,
       img: file.path,
+      price
     });
 
     await combo.save();

@@ -3,16 +3,14 @@ const Bebida = require("../models/bebidas");
 
 exports.create = async (req, res) => {
   try {
-    const { bebida, id, tipo, tamanho, sabor, price } = req.body;
+    const { name, id,  description,  price } = req.body;
     const file = req.file;
 
     const bebidaItem = new Bebida({
       id,
-      bebida,
+      name,
       img: file.path,
-      tipo, 
-      tamanho, 
-      sabor, 
+      description, 
       price 
     });
 

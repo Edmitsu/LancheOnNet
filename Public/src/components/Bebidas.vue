@@ -3,8 +3,8 @@
     <div class="bebidas-grid">
       <div class="bebida-item" v-for="bebida in bebidas" :key="bebida.id">
         <img :src="getFullImageUrl(bebida.img)" :alt="bebida.bebida" class="bebida-image" loading="lazy" draggable="false" />
-        <h3 class="bebida-name">{{ bebida.bebida }}</h3>
-        <p>{{ bebida.tamanho }}</p>
+        <h3 class="bebida-name">{{ bebida.name }}</h3>
+        <p>{{ bebida.description }}</p>
         <p>R$ {{ bebida.price }}</p>
       </div>
     </div>
