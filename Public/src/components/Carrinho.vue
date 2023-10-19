@@ -4,8 +4,11 @@
             <div class="carrinho-item">
                 <ul class="carrinho-list">
                     <li v-for="item in carrinho" :key="item.id">
-                        {{ item.nome }} - {{ item.quantidade }} - {{ item.preco }}
-                    </li>                    
+                        <img :src="getFullImageUrl(item.imagem)" alt="">{{ item.nome }} - {{ item.descricao }} - R$ {{  item.preco }}
+                    </li>             
+                    <li>
+                      Total: R$ {{ precoTotal }}
+                    </li>       
                 </ul>
             </div>
         </div>
@@ -22,6 +25,7 @@ export default {
   data() {
     return {
       carrinho: [],
+      precoTotal: ''
     };
   },
   mounted() {
@@ -29,7 +33,8 @@ export default {
     axios.get("http://localhost:3000/carrinho")
       .then((response) => {
         this.carrinho = response.data.carrinhoItens;
-        console.log(this.carrinho)
+        this.precoTotal = response.data.precoTotal;
+        console.log(this.precoTotal)
       })
       .catch((error) => {
         console.error("Erro ao buscar os dados do carrinho:", error);
