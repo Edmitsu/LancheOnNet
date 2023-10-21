@@ -55,7 +55,7 @@ export default {
         });
 
         if (response.status === 200) {
-          console.log("Hamburguer Adicionado Com Sucesso Meu Padrinho", response )
+          console.log(response )
         } else {
           console.error('Erro ao adicionar ao carrinho.');
         }

@@ -4,16 +4,18 @@ import Burgers from './components/Burgers.vue'
 import Porcoes from './components/Porcoes.vue';
 import Nav from './components/Nav.vue'
 import Carrinho from './components/Carrinho.vue';
+
+const showCarrinho = false;
 </script>
 
 <template>
-    <Nav />
+    <Nav></Nav>
     <section class="content">
       <Burgers />
       <Bebidas />
       <Porcoes />
+      <Carrinho v-if="showCarrinho"/>
     </section>
-    <Carrinho />
 </template>
 
 <style>

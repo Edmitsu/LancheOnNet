@@ -2,7 +2,7 @@
   <section id="porcoes">
     <div class="porcoes-grid">
       <div class="porcao-item" v-for="porcao in porcaos" :key="porcao._id">
-        <img :src="getFullImageUrl(porcao.src)" :alt="porcao.name" class="porcao-image" loading="lazy" draggable="false" />
+        <img :src="getFullImageUrl(porcao.img)" :alt="porcao.name" class="porcao-image" loading="lazy" draggable="false" />
         <h3 class="porcao-name">{{ porcao.name }}</h3>
         <p>{{ porcao.description }}</p>
         <p>R$ {{ porcao.price }}</p>

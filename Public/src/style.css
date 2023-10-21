@@ -7,10 +7,14 @@
   --main-red: #D01C1F;
   --sec-red: #be3144;
   --main-gray: #303841;
+  --sec-gray: #dfdede;
   --main-blue: #2963A2;
   --main-turquoise:#4CAABC;
   --sec-turquoise:#72C2C9;
   --main-yellow:#f7a901;
+  --main-brown:#943e04;
+
+  --carrinho-nav-height: 50px;
 }
 
 /* Base reset */
