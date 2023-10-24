@@ -1,7 +1,8 @@
 <template>
+  <Transition name="openCarrinho">
   <section id="openCarrinho" v-if="!openCarrinho">
       <div class="abrirCarrinho">
-          <h3>Carrinho</h3>
+          <h3>Carrinho:</h3>
           <ul>
             <li v-for="item in carrinho" :key="item.id">
               <p>{{ item.nome }}</p>
@@ -10,6 +11,7 @@
           <button @click="abrirCarrinho()">Abrir Carrinho</button>
       </div>
   </section>
+  </Transition>
   <Transition name="openCarrinho">
   <section id="carrinho" class="carrinho" v-if="openCarrinho">
       <div id="carrinho-nav">
@@ -238,6 +240,57 @@ methods: {
  }
 
  @media (max-width: 28.75em) {
+    #carrinho-nav, #pagamento{
+      margin-left: 0;
+      margin-bottom: 0;
+    }
 
- }
+    .abrirCarrinho{
+      text-wrap: nowrap;
+      padding: 1rem;
+    }
+
+    .carrinho, .abrirCarrinho{
+      width: 100%;
+    }
+
+    .carrinho-container{
+      width: 100%;
+    }
+
+    .carrinho-grid img {
+      padding: 1rem;
+      width: 350px;
+      margin: 0 auto;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
+
+    .carrinho-grid li{
+      grid-template-columns: 1fr;
+      align-items: center;
+    }
+    .carrinho-grid p{
+      text-align: center;
+    }
+
+    #pagamento{
+      width: 100%;
+      padding: 1rem;
+    }
+
+    #pagamento button{
+      font-size: 1.4rem;
+      padding: 0.5rem;
+    }
+
+    #pagamento select{
+      font-size: 1.4rem;
+    }
+
+    #pagamento p{
+      padding: 1rem;
+      font-size: 1.4rem;
+    }
+  }
 </style>
