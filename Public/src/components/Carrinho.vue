@@ -1,9 +1,20 @@
 <template>
-  <section id="carrinho" class="carrinho">
+  <section id="openCarrinho">
+      <div class="abrirCarrinho">
+          <h3>Carrinho</h3>
+          <ul>
+            <li v-for="item in carrinho" :key="item.id">
+              <p>{{ item.nome }}</p>
+            </li>
+          </ul>          
+          <button @click="abrirCarrinho()">Abrir Carrinho</button>
+      </div>
+  </section>
+  <section id="carrinho" class="carrinho" v-if="openCarrinho">
       <div id="carrinho-nav">
         <div class="nav-items">
           <h3>Carrinho</h3>
-          <button>Voltar Ao Cardapio</button>
+          <button @click="abrirCarrinho()">Voltar Ao Cardapio</button>
         </div>
       </div>    
       <div class="carrinho-container">
@@ -37,7 +48,8 @@ export default {
 data() {
   return {
     carrinho: [],
-    precoTotal: ''
+    precoTotal: '',
+    openCarrinho: false
   };
 },
 mounted() {
@@ -56,6 +68,10 @@ methods: {
   getFullImageUrl(src) {
   return `http://localhost:3000/${src}`;
   },
+
+  abrirCarrinho(){
+    this.openCarrinho = !this.openCarrinho;
+  }
 }
 };
 </script>
@@ -172,6 +188,35 @@ methods: {
   background-color: var(--main-white);
   text-align: center;
   font-weight: bolder;
+ }
+
+ .abrirCarrinho{
+   display: flex;
+   justify-content: center;
+   position: fixed;
+   align-items: center;
+   bottom: 0;
+   right: 0;
+   height: calc(var(--carrinho-nav-height) * 2);
+   width: calc(100% - 100px);
+   background: var(--main-brown);
+   color: var(--sec-white);
+   z-index: 1;
+   gap: 2rem;
+ }
+
+ .abrirCarrinho button{
+  height: 4.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  position: absolute;
+  top: -2rem;
+ }
+
+ .abrirCarrinho ul{
+  display: flex;
+  overflow-x: hidden;
+  gap: 1rem;
  }
 
  @media (max-width: 28.75em) {
