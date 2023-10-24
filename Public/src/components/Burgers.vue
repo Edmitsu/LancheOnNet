@@ -105,6 +105,12 @@ export default {
   transform: scale(1.05);
   cursor: pointer;
 }
+.hamburger-item button{
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 .hamburger-image {
   height: 300px;

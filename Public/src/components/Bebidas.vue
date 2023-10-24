@@ -103,6 +103,13 @@ export default {
   font-weight: 600;
 }
 
+.bebida-item button{
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .bebida-item:hover {
   transform: scale(1.05);
   cursor: pointer;

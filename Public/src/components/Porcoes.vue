@@ -104,6 +104,13 @@ export default {
   font-weight: 600;
 }
 
+.porcao-item button{
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .porcao-item:hover {
   transform: scale(1.05);
   cursor: pointer;
