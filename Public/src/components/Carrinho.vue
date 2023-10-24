@@ -1,5 +1,5 @@
 <template>
-  <section id="openCarrinho">
+  <section id="openCarrinho" v-if="!openCarrinho">
       <div class="abrirCarrinho">
           <h3>Carrinho</h3>
           <ul>
@@ -10,6 +10,7 @@
           <button @click="abrirCarrinho()">Abrir Carrinho</button>
       </div>
   </section>
+  <Transition name="openCarrinho">
   <section id="carrinho" class="carrinho" v-if="openCarrinho">
       <div id="carrinho-nav">
         <div class="nav-items">
@@ -39,6 +40,7 @@
           <p>Total: R$ {{ precoTotal }}</p>
         </div>       
   </section>
+  </Transition>
 </template>
 
 <script>
@@ -217,6 +219,22 @@ methods: {
   display: flex;
   overflow-x: hidden;
   gap: 1rem;
+ }
+
+ .openCarrinho-enter-active{
+  animation: openCarrinho 1s;
+ }
+ .openCarrinho-leave-active{
+  animation: openCarrinho 1s reverse;
+ }
+
+ @keyframes openCarrinho {
+  0%{
+    transform: translateY(100rem);
+  }
+  100%{
+    transform: translateY(0);
+  }
  }
 
  @media (max-width: 28.75em) {
