@@ -14,7 +14,7 @@ const showCarrinho = false;
       <Burgers />
       <Bebidas />
       <Porcoes />
-      <Carrinho v-if="showCarrinho"/>
+      <Carrinho />
     </section>
 </template>
 

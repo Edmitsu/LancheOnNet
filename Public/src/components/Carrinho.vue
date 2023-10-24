@@ -90,7 +90,8 @@ methods: {
 .carrinho-container{
   height: 100%;
   margin-top: calc(var(--carrinho-nav-height) * 2);
-  margin-bottom: calc(var(--carrinho-nav-height) * 3);
+  margin-bottom: calc(var(--carrinho-nav-height) * 2);
+  overflow-y: scroll;
 }
  .carrinho {
    display: flex;
@@ -105,7 +106,6 @@ methods: {
    z-index: 1;
    padding: 4rem 2rem;
    flex-direction: column;
-   overflow-y: scroll;
  }
 
  .carrinho-grid li{
@@ -121,6 +121,8 @@ methods: {
  .carrinho-grid img {
   object-fit: contain;
   padding: 2rem;
+  min-width: 15rem;
+  max-width: 20rem;  
  }
 
  .button-grid{
@@ -156,28 +158,23 @@ methods: {
  }
  #pagamento button{
   height: 4.5rem;
+  font-size: 2rem;
+  font-weight: bold;
  }
  #pagamento select{
   text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
  }
 
  #pagamento p{
   padding: 2rem;
   background-color: var(--main-white);
   text-align: center;
+  font-weight: bolder;
  }
 
  @media (max-width: 28.75em) {
-  .carrinho {
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    height: 100px;
-    width: 100%;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.4);
-    z-index: 1;
- }
+
  }
 </style>
