@@ -239,7 +239,7 @@ methods: {
   }
  }
 
- @media (max-width: 28.75em) {
+ @media (max-width: 650px) {
     #carrinho-nav, #pagamento{
       margin-left: 0;
       margin-bottom: 0;
