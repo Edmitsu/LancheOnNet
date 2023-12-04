@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Success Page</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #eee;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .modal img {
+      max-width: 100%;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    .item-pedido {
+      cursor: pointer;
+    }
+
+    #pedido-data {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 344px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #pedido-data h2 {
+      color: #333;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #pedido-data h2 button {
+      background-color: #2963a2;
+      color: white;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: none;
+    }
+
+    #pedido-data h3 {
+      color: #555;
+      margin-top: 20px;
+    }
+
+    #pedido-data ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #pedido-data li {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    #pedido-data li:last-child {
+      border-bottom: none;
+    }
+
+    #pedido-data img {
+      max-width: 40%;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    #preco-total {
+      color: #333;
+      font-size: 25px;
+      font-weight: 800;
+      padding-bottom: 25px;
+    }
+
+    #voltar-btn {
+      background-color: #2963a2;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: none;
+      margin-bottom: 20px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+  <div id="pedido-data">
+    <!-- Dados do pedido serão exibidos aqui -->
+  </div>
+
+  <div id="preco-total">
+    <!-- Preço total será exibido aqui -->
+  </div>
+
+  <div class="modal" id="modal-item">
+    <!-- Modal para exibir detalhes do item -->
+  </div>
+
+  <button id="voltar-btn">Voltar para a Home</button>
+
+  <script>
+    $(document).ready(function () {
+      $.ajax({
+        url: 'http://localhost:4000/pedidos',
+        method: 'GET',
+        success: function (data) {
+          console.log('Dados da rota /pedidos:', data);
+
+          const pedidoDataElement = $('#pedido-data');
+
+          if (data.length > 0 && data[0].numeroPedido) {
+            const numeroPedido = data[0].numeroPedido;
+            pedidoDataElement.append(`
+              <h2>
+                Número do Pedido: ${numeroPedido}
+                <button onclick="copiarNumeroPedido('${numeroPedido}')">Copiar</button>
+              </h2>
+            `);
+          } else {
+            pedidoDataElement.append('<p>Número do Pedido não encontrado.</p>');
+          }
+
+          if (data.length > 0 && data[0].carrinho && data[0].carrinho.length > 0) {
+            pedidoDataElement.append('<h3>Itens do Pedido</h3>');
+            const listaItens = $('<ul>');
+
+            data[0].carrinho.forEach((item, index) => {
+              const precoItem = (item.preco / 100).toFixed(2).replace('.', ',');
+              const precoTotalItem = ((item.preco * item.quantity) / 100).toFixed(2).replace('.', ',');
+
+              const itemHTML = `
+                <li class="item-pedido">
+                  <strong>Nome:</strong> ${item.nome}<br>
+                  <strong>Preço:</strong> R$ ${precoItem}<br>
+                  <strong>Quantidade:</strong> ${item.quantity}<br>
+                  <strong>Preço:</strong> R$ ${precoTotalItem}<br>
+                  <img src="${item.imagem}" alt="${item.nome}">
+                </li>
+              `;
+              listaItens.append(itemHTML);
+            });
+
+            pedidoDataElement.append(listaItens);
+
+            // Calcular e exibir o preço total
+            const precoTotal = data[0].carrinho.reduce((total, item) => total + item.preco * item.quantity, 0) / 100;
+            $('#preco-total').text(`Preço Total: R$ ${precoTotal.toFixed(2).replace('.', ',')}`);
+          } else {
+            pedidoDataElement.append('<p>Nenhum item encontrado no pedido.</p>');
+          }
+        },
+        error: function (error) {
+          console.error('Erro ao obter dados da rota /pedidos:', error);
+        }
+      });
+
+
+      $('#voltar-btn').on('click', function () {
+        window.location.href = 'http://localhost:5173/';
+      });
+
+
+      $('#pedido-data').on('click', '.item-pedido', function () {
+        const index = $(this).index();
+        openModal(index);
+      });
+    });
+
+    function copiarNumeroPedido(numeroPedido) {
+      navigator.clipboard.writeText(numeroPedido);
+      alert(`Número do Pedido ${numeroPedido} copiado para a área de transferência.`);
+    }
+
+    function openModal(index) {
+      const modal = $('#modal-item');
+      modal.empty(); // Limpa o conteúdo anterior
+
+
+      const item = data[0].carrinho[index];
+      const precoItem = (item.preco / 100).toFixed(2).replace('.', ',');
+      const precoTotalItem = ((item.preco * item.quantity) / 100).toFixed(2).replace('.', ',');
+
+      const itemHTML = `
+        <h2>${item.nome}</h2>
+        <p><strong>Preço:</strong> R$ ${precoItem}</p>
+        <p><strong>Quantidade:</strong> ${item.quantity}</p>
+        <p><strong>Preço Total:</strong> R$ ${precoTotalItem}</p>
+        <img src="${item.imagem}" alt="${item.nome}">
+      `;
+
+      modal.append(itemHTML);
+      modal.show();
+    }
+  </script>
+</body>
+
+</html>

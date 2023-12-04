@@ -2,45 +2,60 @@ const fs = require("fs");
 const Porcao = require("../models/porcao");
 
 exports.create = async (req, res) => {
-  try {
-    const { name, description, id, price } = req.body;
-    const file = req.file;
+  const { name, description, quantity, price } = req.body;
+  const file = req.file;
 
-    const porcao = new Porcao({
-      id,
-      name,
-      description,
-      img: file.path,
-      price
-    });
+  const porcao = new Porcao({
+    quantity,
+    name,
+    description,
+    img: file.path,
+    price,
+  });
 
-    await porcao.save();
-    res.json(porcao);
-  } catch (err) {
-    res.status(500).json({ message: "Erro ao salvar o porcao." });
-  }
+  await porcao.save();
+  res.json(porcao);
 };
 
 exports.remove = async (req, res) => {
-  try {
-    const porcao = await Porcao.findById(req.params.id);
-    if (!porcao) {
-      return res.status(404).json({ message: "porcao não encontrado." });
-    }
-    fs.unlinkSync(`uploads/${porcao.img}`);
-    await porcao.remove();
-    res.json({ message: "porcao removido com sucesso." });
-  } catch (err) {
-    res.status(500).json({ message: "Erro ao remover o Porcao." });
+  const porcaoId = req.params.id;
+
+  const porcao = await Porcao.findById(porcaoId);
+  if (!porcao) {
+    return res.status(404).json({ message: "Porção não encontrada." });
   }
+
+  fs.unlinkSync(porcao.img);
+
+  await Porcao.findByIdAndRemove(porcaoId);
+
+  res.json({ message: "Porção removida com sucesso." });
 };
 
 exports.findAll = async (req, res) => {
-    try {
-      const porcoes = await Porcao.find();
-      res.json(porcoes);
-    } catch (err) {
-      res.status(500).json({ message: "Erro ao buscar as porções." });
-    }
-  };
-  
+  const porcoes = await Porcao.find();
+  res.json(porcoes);
+};
+
+exports.update = async (req, res) => {
+  const { name, description, price } = req.body;
+  const file = req.file;
+  const porcaoId = req.params.id;
+
+  const porcao = await Porcao.findById(porcaoId);
+
+  if (!porcao) {
+    return res.status(404).json({ message: "Porção não encontrada." });
+  }
+
+  if (name) porcao.name = name;
+  if (description) porcao.description = description;
+  if (price) porcao.price = price;
+  if (file) {
+    fs.unlinkSync(porcao.img);
+    porcao.img = file.path;
+  }
+
+  await porcao.save();
+  res.json(porcao);
+};

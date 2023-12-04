@@ -27,7 +27,7 @@ export default {
   methods: {
     fetchCombos() {
       axios
-        .get('http://localhost:3000/combos/')
+        .get('http://localhost:4000/combos/')
         .then(response => {
           this.combos = response.data;
         })
@@ -36,7 +36,7 @@ export default {
         });
     },
     getFullImageUrl(src) {
-      return `http://localhost:3000/${src}`;
+      return `http://localhost:4000/${src}`;
     },
     async adicionarAoCarrinho(combo) {
       if (!combo) {
@@ -44,27 +44,29 @@ export default {
       }
 
       try {
-        const response = await axios.post('http://localhost:3000/carrinho/', {
-          tipo: 'combo',
-          id: combo._id,
-          quantidade: 1,
-          preco: combo.price,
-          nome: combo.name,
-          imagem: this.getFullImageUrl(combo.img),
-          descricao: combo.description,
-        });
+    const response = await axios.post('http://localhost:4000/carrinho/', {
+      tipo: 'combo',
+      id: combo._id,
+      quantity : 1,
+      preco: combo.price / 100,
+      nome: combo.name,
+      imagem: this.getFullImageUrl(combo.img),
+      descricao: combo.description,
+    });
 
-        if (response.status === 200) {
-          console.log(response )
-        } else {
-          console.error('Erro ao adicionar ao carrinho.');
-        }
-      } catch (error) {
-        console.error('Erro ao adicionar ao carrinho:', error);
-      }
+    if (response.status === 200) {
+      console.log(response);
+      // Após adicionar com sucesso, recarregue a página
+      window.location.reload();
+    } else {
+      console.error('Erro ao adicionar ao carrinho.');
     }
+  } catch (error) {
+    console.error('Erro ao adicionar ao carrinho:', error);
   }
-};
+},
+}
+}; 
 </script>
 
 <style>

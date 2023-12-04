@@ -1,84 +1,190 @@
+// const express = require('express');
+// const router = express.Router();
+// const pedidoController = require('../controllers/pedidosController');
+
+// // Rota para criar pedidos
+// router.post('/', async (req, res) => {
+//   try {
+//     console.log('Recebendo dados da rota /pedidos (POST):', req.body);
+
+//     const { carrinhoItens, precoTotal, opcaoEntrega } = req.body;  // Define opcaoEntrega here
+
+//     if (!carrinhoItens || !Array.isArray(carrinhoItens) || carrinhoItens.length === 0) {
+//       console.error('Carrinho vazio ou não encontrado. Não é possível criar o pedido.');
+//       return res.status(400).json({ error: 'Carrinho vazio ou não encontrado. Não é possível criar o pedido.' });
+//     }
+
+//     const carrinhoItensFormatted = carrinhoItens.map(item => ({
+//       quantity: item.quantity || 1,
+//       tipo: item.tipo || 'combo',
+//       id: item.id || '',
+//       nome: item.nome || '',
+//       imagem: item.imagem || '',
+//       descricao: item.descricao || '',
+//       preco: item.preco || 0,
+//       _id: item._id || '',
+//       opcaoEntrega: item.opcaoEntrega || "LEVAR_PARA_CASA"
+//     }));
+
+//     const resultadoPedido = await pedidoController.createPedido({ carrinhoItens: carrinhoItensFormatted, precoTotal, opcaoEntrega, res });
+
+//     console.log('Resultado do pedido:', resultadoPedido);
+
+//   } catch (err) {
+//     console.error('Erro na rota /pedidos (POST):', err);
+//     return res.status(500).json({ error: `Erro ao criar o pedido. Detalhes do erro: ${err.message}` });
+//   }
+// });
+
+// // Rota para obter um pedido pelo número
+// router.get('/:numeroPedido', async (req, res) => {
+//   try {
+//     console.log('Recebendo dados da rota /pedidos (GET):', req.params);
+
+//     const result = await pedidoController.getPedido(req, res);
+
+//     res.json(result);
+//   } catch (err) {
+//     console.error('Erro na rota /pedidos (GET):', err);
+//     return res.status(500).json({ error: `Erro ao buscar o pedido. Detalhes do erro: ${err.message}` });
+//   }
+// });
+
+// // Rota para deletar um pedido pelo número
+// router.delete('/:numeroPedido', async (req, res) => {
+//   try {
+//     console.log('Recebendo dados da rota /pedidos (DELETE):', req.params);
+
+//     const result = await pedidoController.deletePedido(req, res);
+
+//     res.json(result);
+//   } catch (err) {
+//     console.error('Erro na rota /pedidos (DELETE):', err);
+//     return res.status(500).json({ error: `Erro ao deletar o pedido. Detalhes do erro: ${err.message}` });
+//   }
+// });
+
+// // Rota para obter todos os pedidos
+// router.get('/', async (req, res) => {
+//   try {
+//     const result = await pedidoController.getAllPedidos(req, res);
+//     res.json(result);
+//   } catch (err) {
+//     console.error('Erro na rota /pedidos (GET all):', err);
+//     return res.status(500).json({ error: `Erro ao buscar os pedidos. Detalhes do erro: ${err.message}` });
+//   }
+// });
+
+// module.exports = router;
+
+
+
 const express = require('express');
 const router = express.Router();
 const pedidoController = require('../controllers/pedidosController');
-const Pedido = require('../models/pedidos');
 
-router.get('/', async (req, res) => {
-  try {
-    const pedidos = await Pedido.find();
-    return res.json({ pedidos });
-  } catch (err) {
-    return res.status(500).json({ error: 'Erro ao buscar os pedidos.' });
+// Middleware para validar o formato do número do pedido
+router.param('numeroPedido', (req, res, next, numeroPedido) => {
+  if (!/^\d{4}$/.test(numeroPedido)) {
+    return res.status(400).json({ error: 'Formato inválido para o número do pedido.' });
   }
+  next();
 });
 
-router.get('/:id', async (req, res) => {
-  const pedidoId = req.params.id;
-
+// Rota para criar pedidos
+router.post('/', async (req, res) => {
   try {
-    const pedido = await Pedido.findById(pedidoId);
+    console.log('Recebendo dados da rota /pedidos (POST):', req.body);
 
-    if (!pedido) {
-      return res.status(404).json({ message: 'Pedido não encontrado.' });
+    const { carrinhoItens, precoTotal, opcaoEntrega } = req.body;
+
+    if (!carrinhoItens || !Array.isArray(carrinhoItens) || carrinhoItens.length === 0) {
+      console.error('Carrinho vazio ou não encontrado. Não é possível criar o pedido.');
+      return res.status(400).json({ error: 'Carrinho vazio ou não encontrado. Não é possível criar o pedido.' });
     }
 
-    pedido.numeroPedido = await pedidoController.getNumeroPedido(pedidoId);
+    const carrinhoItensFormatted = carrinhoItens.map(item => ({
+      quantity: item.quantity || 1,
+      tipo: item.tipo || 'combo',
+      id: item.id || '',
+      nome: item.nome || '',
+      imagem: item.imagem || '',
+      descricao: item.descricao || '',
+      preco: item.preco || 0,
+      _id: item._id || '',
+      opcaoEntrega: item.opcaoEntrega || "LEVAR_PARA_CASA"
+    }));
 
-    return res.json({ pedido });
+    const resultadoPedido = await pedidoController.createPedido({ carrinhoItens: carrinhoItensFormatted, precoTotal, opcaoEntrega, res });
+
+    console.log('Resultado do pedido:', resultadoPedido);
+
   } catch (err) {
-    return res.status(500).json({ error: 'Erro ao buscar o pedido.' });
+    console.error('Erro na rota /pedidos (POST):', err);
+    return res.status(500).json({ error: `Erro ao criar o pedido. Detalhes do erro: ${err.message}` });
   }
 });
 
-router.get('/:id/numero', async (req, res) => {
-  const pedidoId = req.params.id;
-
+// Rota para obter um pedido pelo número
+router.get('/:numeroPedido', async (req, res) => {
   try {
-    const pedido = await Pedido.findById(pedidoId);
+    console.log('Recebendo dados da rota /pedidos (GET):', req.params);
 
-    if (!pedido) {
+    const result = await pedidoController.getPedido(req, res);
+
+    res.json(result);
+  } catch (err) {
+    console.error('Erro na rota /pedidos (GET):', err);
+    return res.status(500).json({ error: `Erro ao buscar o pedido. Detalhes do erro: ${err.message}` });
+  }
+});
+
+// Rota para deletar um pedido pelo número
+router.delete('/:numeroPedido', async (req, res) => {
+  try {
+    console.log('Recebendo dados da rota /pedidos (DELETE):', req.params);
+
+    const result = await pedidoController.deletePedido(req, res);
+
+    res.json(result);
+  } catch (err) {
+    console.error('Erro na rota /pedidos (DELETE):', err);
+    return res.status(500).json({ error: `Erro ao deletar o pedido. Detalhes do erro: ${err.message}` });
+  }
+});
+
+// Rota para obter todos os pedidos
+router.get('/', async (req, res) => {
+  try {
+    const result = await pedidoController.getAllPedidos(req, res);
+    res.json(result);
+  } catch (err) {
+    console.error('Erro na rota /pedidos (GET all):', err);
+    return res.status(500).json({ error: `Erro ao buscar os pedidos. Detalhes do erro: ${err.message}` });
+  }
+});
+
+router.get('/numeroPorId/:pedidoId', async (req, res) => {
+  try {
+    const { pedidoId } = req.params;
+
+    console.log(`Recebendo pedidoId na rota /pedidos/numeroPorId: ${pedidoId}`);
+
+
+    const pedidoDetails = await pedidoController.getPedidoDetailsById(pedidoId);
+
+    if (!pedidoDetails || !pedidoDetails.numeroPedido) {
+      console.log(`Pedido não encontrado ou número do pedido não disponível para o pedidoId: ${pedidoId}`);
       return res.status(404).json({ error: 'Pedido não encontrado.' });
     }
 
-    const numeroPedido = pedido.numeroPedido;
+    const numeroPedido = pedidoDetails.numeroPedido;
+    console.log(`Número do pedido para o pedidoId ${pedidoId}: ${numeroPedido}`);
 
-    return res.json({ numeroPedido });
+    res.json({ numeroPedido });
   } catch (err) {
-    return res.status(500).json({ error: 'Erro ao buscar o número do pedido.' });
-  }
-});
-
-router.post('/', async (req, res) => {
-  const { nome, carne, pao, opcionais, bebida, status, comboId, descricaoCombo, descricaoPorcao, numeroPedido, quantidade } = req.body;
-
-  try {
-    const pedido = await Pedido.create({ nome, carne, pao, opcionais, bebida, status, combo: { nome: comboId, descricao: descricaoCombo, quantidade }, descricaoCombo, descricaoPorcao, numeroPedido });
-    return res.json({ pedido, message: 'Pedido criado com sucesso.' });
-  } catch (err) {
-    return res.status(400).json({ error: 'Erro ao criar o pedido.' });
-  }
-});
-
-router.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const { nome, carne, pao, opcionais, bebida, status, comboId, descricaoCombo, descricaoPorcao, numeroPedido, qtdCombo } = req.body;
-
-  try {
-    const pedido = await Pedido.findByIdAndUpdate(id, { nome, carne, pao, opcionais, bebida, status, combo: { nome: comboId, descricao: descricaoCombo }, descricaoCombo, descricaoPorcao, numeroPedido, qtdCombo }, { new: true });
-    return res.json({ pedido, message: 'Pedido atualizado com sucesso.' });
-  } catch (err) {
-    return res.status(400).json({ error: 'Erro ao atualizar o pedido.' });
-  }
-});
-
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    await Pedido.findByIdAndDelete(id);
-    return res.json({ message: 'Pedido excluído com sucesso.' });
-  } catch (err) {
-    return res.status(400).json({ error: 'Erro ao excluir o pedido.' });
+    console.error('Erro na rota /pedidos/numeroPorId:', err);
+    return res.status(500).json({ error: `Erro ao buscar o número do pedido. Detalhes do erro: ${err.message}` });
   }
 });
 

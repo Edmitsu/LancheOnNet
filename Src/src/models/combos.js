@@ -5,7 +5,7 @@ const ComboSchema = new Schema({
   name: { type: String, required: true },
   img: { type: String, required: true },
   description: { type: String },
-  id: { type: String, required: true, unique: true },
+  quantity: { type:  String, required: true,},
   price: { type: Number, required: true },
 });
 

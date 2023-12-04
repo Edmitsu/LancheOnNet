@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const BebidasSchema = new Schema({
   name: { type: String, required: true },
   img: { type: String, required: true },
-  id: { type: String, required: true, unique: true },
+  quantity: { type:  String, required: true,},
   description: { type: String, required: true }, 
   price: { type: Number, required: true },
 });

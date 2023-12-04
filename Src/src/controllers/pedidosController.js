@@ -1,105 +1,109 @@
 const Pedido = require('../models/pedidos');
-const Combo = require('../models/combos');
 
 module.exports = {
-  async create(req, res) {
-    const { nome, carne, pao, opcionais, bebida, porcao, status, comboId, descricaoCombo, descricaoPorcao, numeroPedido, qtdCombo } = req.body;
-
+  async createPedido({ carrinhoItens, precoTotal, opcaoEntrega, res }) {
     try {
-      const combo = await Combo.findById(comboId);
-
-      if (!combo) {
-        return res.status(400).json({ error: 'Combo não encontrado.' });
+      if (!carrinhoItens || !Array.isArray(carrinhoItens) || carrinhoItens.length === 0) {
+        console.error('Carrinho vazio ou não encontrado. Não é possível criar o pedido.');
+        return res.status(400).json({ error: 'Carrinho vazio ou não encontrado. Não é possível criar o pedido.' });
       }
 
-      const pedido = await Pedido.create({ 
-        nome,
-        carne,
-        pao,
-        opcionais,
-        bebida,
-        porcao,
-        status,
-        combo: {
-          nome: combo.nome,
-          id: combo._id,
-          descricao: descricaoCombo,
-          qtdCombo
-        },
-        descricaoPorcao,
-        numeroPedido
-      });
+      const carrinhoItensFormatted = carrinhoItens.map(item => ({
+        quantity: item.quantity || 1,
+        tipo: item.tipo || 'combo',
+        id: item.id || '',
+        nome: item.nome || '',
+        imagem: item.imagem || '',
+        descricao: item.descricao || '',
+        preco: item.preco || 0,
+        _id: item._id || '',
+        opcaoEntrega: item.opcaoEntrega || "LEVAR_PARA_CASA"
+      }));
 
-      return res.json({ pedido, message: 'Pedido criado com sucesso.' });
+      // Gerar um número de pedido de 4 dígitos
+      const numeroPedido = Math.floor(1000 + Math.random() * 9000);
+
+      const pedidoData = {
+        carrinho: carrinhoItensFormatted,
+        precoTotal: precoTotal,
+        opcaoEntrega: opcaoEntrega,  // <-- Add this line to define opcaoEntrega
+        numeroPedido: numeroPedido, // Adiciona o número de pedido gerado
+      };
+
+      console.log('Dados enviados para a rota /pedidos:', pedidoData);
+
+      const pedido = new Pedido(pedidoData);
+
+      console.log('Pedido antes de salvar:', pedido);
+
+      await pedido.save();
+
+      console.log('Pedido criado com sucesso. Número do Pedido:', pedido.numeroPedido);
+
+      return { message: 'Pedido criado com sucesso.', numeroPedido: pedido.numeroPedido };
     } catch (err) {
-      return res.status(400).json({ error: 'Erro ao criar o pedido.' });
+      console.error('Erro ao criar o pedido:', err);
+      return { error: `Erro ao criar o pedido. Detalhes do erro: ${err.message}` };
     }
   },
-
-  async update(req, res) {
-    const { id } = req.params;
-
+  async getPedido(req, res) {
     try {
-      const pedido = await Pedido.findById(id);
+      const numeroPedido = req.params.numeroPedido;
+
+      const pedido = await Pedido.findOne({ numeroPedido });
 
       if (!pedido) {
-        return res.status(404).json({ error: 'Pedido não encontrado.' });
+        return { message: 'Pedido não encontrado.' };
       }
 
-      const { qtdCombo, ...pedidoData } = req.body;
-
-      if (qtdCombo) {
-        pedido.combo.qtdCombo = qtdCombo;
-      }
-
-      const updatedPedido = await pedido.save();
-
-      return res.json({ pedido: updatedPedido, message: 'Pedido atualizado com sucesso.' });
+      return pedido;
     } catch (err) {
-      return res.status(400).json({ error: 'Erro ao atualizar o pedido.' });
+      console.error('Erro ao buscar o pedido:', err);
+      throw err;
     }
   },
 
-  async delete(req, res) {
-    const { id } = req.params;
-
+  async deletePedido(req, res) {
     try {
-      const pedido = await Pedido.findById(id);
+      const numeroPedido = req.params.numeroPedido;
 
-      if (!pedido) {
-        return res.status(404).json({ error: 'Pedido não encontrado.' });
+      const result = await Pedido.deleteOne({ numeroPedido });
+
+      if (result.deletedCount === 0) {
+        return { message: 'Pedido não encontrado.' };
       }
 
-      await Pedido.findByIdAndDelete(id);
-
-      return res.json({ message: 'Pedido excluído com sucesso.' });
+      return { message: 'Pedido deletado com sucesso.' };
     } catch (err) {
-      return res.status(400).json({ error: 'Erro ao excluir o pedido.' });
+      console.error('Erro ao deletar o pedido:', err);
+      throw err;
     }
   },
 
-  async getAll(req, res) {
+  async getAllPedidos(req, res) {
     try {
       const pedidos = await Pedido.find();
-      return res.json({ pedidos });
+
+      return pedidos;
     } catch (err) {
-      return res.status(500).json({ error: 'Erro ao buscar os pedidos.' });
+      console.error('Erro ao buscar os pedidos:', err);
+      throw err;
     }
   },
 
-  async getById(req, res) {
-    const { id } = req.params;
-
+  async  getPedidoDetailsById(pedidoId) {
     try {
-      const pedido = await Pedido.findById(id);
-
+      // Select only the necessary fields, including numeroPedido
+      const pedido = await Pedido.findOne({ _id: pedidoId }).select('numeroPedido');
+  
       if (!pedido) {
-        return res.status(404).json({ error: 'Pedido não encontrado.' });
+        return null; // Or throw an error based on your application logic
       }
-
-      return res.json({ pedido });
-    } catch (err) {
-      return res.status(500).json({ error: 'Erro ao buscar o pedido.' });
+  
+      return pedido;
+    } catch (error) {
+      throw new Error(`Erro ao buscar os detalhes do pedido por _id: ${error.message}`);
     }
   }
+  
 };

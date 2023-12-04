@@ -1,53 +1,63 @@
+// const mongoose = require('mongoose');
+
+// const PedidoSchema = new mongoose.Schema({
+//   carrinho: [
+//     {
+//       quantity: Number,
+//       tipo: String,
+//       id: String,
+//       nome: String,
+//       imagem: String,
+//       descricao: String,
+//       preco: Number,
+//     },
+//   ],
+//   precoTotal: Number,
+//   status: {
+//     type: String,
+//     enum: ['PAGO', 'PENDENTE', 'CANCELADO'], 
+//     default: 'PAGO', 
+//   },
+//   numeroPedido: {
+//     type: String,
+//     unique: true,
+//     default: () => Date.now().toString(),
+//   },
+// });
+
+// module.exports = mongoose.model('Pedido', PedidoSchema);
+
 const mongoose = require('mongoose');
 
 const PedidoSchema = new mongoose.Schema({
-  nome: String,
-  carne: String,
-  pao: String,
-  opcionais: [String],
-  bebida: String,
-  porcao: String,
-  status: String,
-  combo: {
-    nome: String,
-    qtdCombo: Number,
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Combos'
-    }
+  carrinho: [
+    {
+      quantity: Number,
+      tipo: String,
+      id: String,
+      nome: String,
+      imagem: String,
+      descricao: String,
+      preco: Number,
+    },
+  ],
+  precoTotal: Number,
+  status: {
+    type: String,
+    enum: ['PAGO', 'PENDENTE', 'CANCELADO'], 
+    default: 'PAGO', 
   },
-  descricaoCombo: String,
-  descricaoPorcao: String,
-  numeroPedido: { type: Number, unique: true }
-});
-
-
-//Gera o Numero do pedido 
-
-function generateRandomNumber() {
-  return Math.floor(1000 + Math.random() * 9000);
-}
-
-
-PedidoSchema.pre('save', async function (next) {
-  try {
-    if (!this.numeroPedido) {
-      let randomNumber = generateRandomNumber();
-      
-      const existingPedido = await this.constructor.findOne({ numeroPedido: randomNumber }).exec();
-      
-      
-      while (existingPedido) {
-        randomNumber = generateRandomNumber();
-        existingPedido = await this.constructor.findOne({ numeroPedido: randomNumber }).exec();
-      }
-      
-      this.numeroPedido = randomNumber;
-    }
-    next();
-  } catch (err) {
-    next(err);
-  }
+  numeroPedido: {
+    type: String,  // Mantenha como String para o formato de 4 dígitos
+    unique: true,
+    default: () => Math.floor(1000 + Math.random() * 9000).toString(), // Gera um número aleatório de 4 dígitos
+  },
+  opcaoEntrega: {
+    type: String,
+    enum: ['COMER_NO_LOCAL', 'LEVAR_PARA_CASA'],
+    default: 'COMER_NO_LOCAL',
+    
+  },
 });
 
 module.exports = mongoose.model('Pedido', PedidoSchema);

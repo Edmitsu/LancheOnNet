@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../../config/multer");
-const BebidaController = require("../controllers/bebidasController"); 
+const BebidaController = require("../controllers/bebidasController");
 
 router.post("/", upload.single("file"), BebidaController.create);
 router.get("/", BebidaController.findAll);
+router.put("/:id", upload.single("file"), BebidaController.update);
 router.delete("/:id", BebidaController.remove);
 
 module.exports = router;

@@ -1,11 +1,9 @@
-
-
 const mongoose = require('mongoose');
 
 const CarrinhoSchema = new mongoose.Schema({
   carrinho: [
     {
-      quantidade: Number,
+      quantity: Number,
       tipo: String,
       id: String,
       nome: String,
@@ -14,7 +12,12 @@ const CarrinhoSchema = new mongoose.Schema({
       preco: Number,
     },
   ],
-  precoTotal: Number, 
+    opcaoEntrega: {
+        type: String,
+        enum: ['LEVAR_PARA_CASA', 'COMER_NO_LOCAL'],
+        default: 'COMER_NO_LOCAL',
+      },
+  precoTotal: Number,
 });
 
 module.exports = mongoose.model('Carrinho', CarrinhoSchema);

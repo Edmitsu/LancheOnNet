@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     fetchBebidas() {
-      axios.get("http://localhost:3000/bebidas")
+      axios.get("http://localhost:4000/bebidas")
         .then((response) => {
           this.bebidas = response.data;
         })
@@ -36,7 +36,7 @@ export default {
         });
     },
     getFullImageUrl(src) {
-      return `http://localhost:3000/${src}`;
+      return `http://localhost:4000/${src}`;
     },
     async adicionarAoCarrinho(bebida) {
   if (!bebida) {
@@ -44,27 +44,30 @@ export default {
   }
 
   try {
-    const response = await axios.post('http://localhost:3000/carrinho/', {
+    const response = await axios.post('http://localhost:4000/carrinho/', {
       tipo: 'bebida',
-      id: bebida._id, 
+      id: bebida._id,
       quantidade: 1,
-      preco: bebida.price, 
-      nome: bebida.name, 
-      imagem: this.getFullImageUrl(bebida.img), 
-      descricao: bebida.tamanho, 
+      preco: bebida.price / 100,
+      nome: bebida.name,
+      imagem: this.getFullImageUrl(bebida.img),
+      descricao: bebida.description,
     });
 
     if (response.status === 200) {
-      console.log('Bebida  Adicionado Com Sucesso Meu Padrinho', response);
+      console.log(response);
+      // Após adicionar com sucesso, recarregue a página
+      window.location.reload();
     } else {
       console.error('Erro ao adicionar ao carrinho.');
     }
   } catch (error) {
     console.error('Erro ao adicionar ao carrinho:', error);
   }
+},
 }
-  }
-}
+};  
+
 </script>
 
 <style>

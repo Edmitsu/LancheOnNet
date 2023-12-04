@@ -5,12 +5,14 @@ import Porcoes from './components/Porcoes.vue';
 import Nav from './components/Nav.vue'
 import Carrinho from './components/Carrinho.vue';
 
+
 const showCarrinho = false;
 </script>
 
 <template>
     <Nav></Nav>
     <section class="content">
+      <Pedidos />
       <Burgers />
       <Bebidas />
       <Porcoes />

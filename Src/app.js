@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 4000;
+
+dotenv.config();
 
 const db = require('./bancoDados/bd');
 app.use(cors());
@@ -12,7 +15,7 @@ app.use(express.json());
 mongoose.connect(db.mongoURI, { useNewUrlParser: true });
 
 // Carregar as rotas
-const ingredientesRoutes = require('./src/routes/ingredientesRoutes');
+
 const bebidasRoutes = require('./src/routes/bebidasRoutes');
 const statusRoutes = require('./src/routes/statusRoutes');
 const pedidosRoutes = require('./src/routes/pedidosRoutes');
@@ -21,7 +24,7 @@ const porcaoRoutes = require("./src/routes/porcaoRoutes");
 const carrinhoRoutes = require("./src/routes/carrinhoRoutes");
 
 // Registrar as rotas 
-app.use('/ingredientes', ingredientesRoutes);
+
 app.use('/bebidas', bebidasRoutes);
 app.use('/status', statusRoutes);
 app.use('/pedidos', pedidosRoutes);

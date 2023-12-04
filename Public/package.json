@@ -9,8 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^2.1.10",
     "axios": "^1.5.1",
-    "vue": "^3.3.4"
+    "cd": "^0.3.3",
+    "ll": "^1.2.0",
+    "pagamento": "file:../Pagamento",
+    "qrcode": "^1.5.3",
+    "qrcode-vue": "^1.2.0",
+    "qrcode.vue": "^3.4.1",
+    "uuid": "^9.0.1",
+    "vue": "^3.3.4",
+    "vue-qrcode": "^2.2.0",
+    "vue-stripe": "^0.1.52",
+    "vue-stripe-elements-plus": "^1.0.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",

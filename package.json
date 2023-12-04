@@ -3,10 +3,11 @@
     "concurrently": "^8.2.1"
   },
   "scripts": {
-    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\" \"npm run pagamento\"",
     "backend": "cd Src && npm start", 
     "frontend": "cd Public && npm run dev",
-    "install-all": "cd Src && npm install && cd ../Public && npm install" 
+    "pagamento": "cd Pagamento && nodemon app.js",
+    "install-all": "cd Src && npm install && cd ../Public && npm install && cd ../Pagamento && npm install" 
   }
   
   
